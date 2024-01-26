@@ -276,7 +276,7 @@ else()
 endif()
 
 if(BUILD_EXTERNAL AND IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/External)
-    find_host_package(PythonInterp 3 REQUIRED)
+    #find_host_package(PythonInterp 3 REQUIRED)
 
     # We depend on these for later projects, so they should come first.
     add_subdirectory(External)
@@ -354,18 +354,18 @@ if(ENABLE_GLSLANG_INSTALL)
             PATH_EXPORT_TARGETS
         INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
     )
-    
+
     write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/glslang-config-version.cmake"
         VERSION ${GLSLANG_VERSION}
         COMPATIBILITY SameMajorVersion
     )
-    
+
     install(
         EXPORT      glslang-targets
         NAMESPACE   "glslang::"
         DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
     )
-    
+
     install(
         FILES
             "${CMAKE_CURRENT_BINARY_DIR}/glslang-config.cmake"

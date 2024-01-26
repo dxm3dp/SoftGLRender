@@ -75,6 +75,7 @@ file(GLOB SOFTGL_SRC
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Viewer/*.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Viewer/Shader/GLSL/*.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Viewer/Shader/Software/*.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Extension/*.cpp
         )
 
 # imgui src

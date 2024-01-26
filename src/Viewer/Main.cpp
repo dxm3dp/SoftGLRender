@@ -8,9 +8,11 @@
 #include <sstream>
 
 #include <glad/glad.h>
+
 #include <GLFW/glfw3.h>
 
 #include "Base/Logger.h"
+#include "Extension/QuadricErrorMetrics.h"
 #include "Render/OpenGL/GLSLUtils.h"
 #include "Viewer/ViewerManager.h"
 
@@ -58,6 +60,9 @@ static void glfwErrorCallback(int error, const char *description) {
 }
 
 int main() {
+
+  SoftGL::QuadricErrorMetrics qem;
+
   /* Initialize the library */
   glfwSetErrorCallback(glfwErrorCallback);
   if (!glfwInit()) {
@@ -73,7 +78,8 @@ int main() {
 #endif
 
   /* create a windowed mode window and its OpenGL context */
-  GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "SoftGLRenderer", nullptr, nullptr);
+  GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "SoftGLRenderer",
+                                        nullptr, nullptr);
   if (!window) {
     LOGE("Failed to create GLFW window");
     glfwTerminate();
@@ -87,10 +93,10 @@ int main() {
   glfwSetScrollCallback(window, scrollCallback);
 
   // tell GLFW to capture our mouse
-//    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+  //    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
   /* Load all OpenGL function pointers */
-  if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
+  if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
     LOGE("Failed to initialize GLAD");
     glfwTerminate();
     return -1;
@@ -106,10 +112,10 @@ int main() {
   // set up vertex data (and buffer(s)) and configure vertex attributes
   float vertices[] = {
       // positions | texture coords
-      1.f, 1.f, 0.0f, 1.0f, 1.0f, // top right
-      1.f, -1.f, 0.0f, 1.0f, 0.0f, // bottom right
+      1.f,  1.f,  0.0f, 1.0f, 1.0f, // top right
+      1.f,  -1.f, 0.0f, 1.0f, 0.0f, // bottom right
       -1.f, -1.f, 0.0f, 0.0f, 0.0f, // bottom left
-      -1.f, 1.f, 0.0f, 0.0f, 1.0f  // top left
+      -1.f, 1.f,  0.0f, 0.0f, 1.0f  // top left
   };
   unsigned int indices[] = {
       0, 1, 3, // first triangle
@@ -125,12 +131,14 @@ int main() {
 
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), nullptr);
   glEnableVertexAttribArray(0);
-  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) (3 * sizeof(float)));
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
+                        (void *)(3 * sizeof(float)));
   glEnableVertexAttribArray(1);
 
   glGenBuffers(1, &EBO);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices,
+               GL_STATIC_DRAW);
 
   glBindVertexArray(GL_NONE);
 
@@ -144,14 +152,16 @@ int main() {
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, SCR_WIDTH, SCR_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, SCR_WIDTH, SCR_HEIGHT, 0, GL_RGBA,
+               GL_UNSIGNED_BYTE, nullptr);
 
   program.use();
   glUniform1i(glGetUniformLocation(program.getId(), "uTexture"), 0);
 
   // init Viewer
   viewer = std::make_shared<SoftGL::View::ViewerManager>();
-  bool initSuccess = viewer->create(window, SCR_WIDTH, SCR_HEIGHT, (int) texture);
+  bool initSuccess =
+      viewer->create(window, SCR_WIDTH, SCR_HEIGHT, (int)texture);
   if (!initSuccess) {
     LOGE("Failed to create Viewer");
   } else {
@@ -208,7 +218,8 @@ int main() {
   return 0;
 }
 
-// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
+// process all input: query GLFW whether relevant keys are pressed/released this
+// frame and react accordingly
 // ---------------------------------------------------------------------------------------------------------
 void processInput(GLFWwindow *window) {
   if (!viewer || viewer->wantCaptureKeyboard()) {
@@ -232,11 +243,12 @@ void processInput(GLFWwindow *window) {
   }
 }
 
-// glfw: whenever the window size changed (by OS or user resize) this callback function executes
+// glfw: whenever the window size changed (by OS or user resize) this callback
+// function executes
 // ---------------------------------------------------------------------------------------------
 void framebufferSizeCallback(GLFWwindow *window, int width, int height) {
-  // make sure the viewport matches the new window dimensions; note that width and
-  // height will be significantly larger than specified on retina displays.
+  // make sure the viewport matches the new window dimensions; note that width
+  // and height will be significantly larger than specified on retina displays.
   glViewport(0, 0, width, height);
 
   if (!viewer) {
@@ -263,9 +275,9 @@ void mouseCallback(GLFWwindow *window, double xPos, double yPos) {
     double yOffset = yPos - lastY;
 
     if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-      viewer->updateGesturePan((float) xOffset, (float) yOffset);
+      viewer->updateGesturePan((float)xOffset, (float)yOffset);
     } else {
-      viewer->updateGestureRotate((float) xOffset, (float) yOffset);
+      viewer->updateGestureRotate((float)xOffset, (float)yOffset);
     }
 
     lastX = xPos;
@@ -282,5 +294,5 @@ void scrollCallback(GLFWwindow *window, double xOffset, double yOffset) {
     return;
   }
 
-  viewer->updateGestureZoom((float) xOffset, (float) yOffset);
+  viewer->updateGestureZoom((float)xOffset, (float)yOffset);
 }
