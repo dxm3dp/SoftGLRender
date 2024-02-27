@@ -12,7 +12,6 @@
 #include <GLFW/glfw3.h>
 
 #include "Base/Logger.h"
-#include "Extension/QuadricErrorMetrics.h"
 #include "Render/OpenGL/GLSLUtils.h"
 #include "Viewer/ViewerManager.h"
 
@@ -60,9 +59,6 @@ static void glfwErrorCallback(int error, const char *description) {
 }
 
 int main() {
-
-  SoftGL::QuadricErrorMetrics qem;
-
   /* Initialize the library */
   glfwSetErrorCallback(glfwErrorCallback);
   if (!glfwInit()) {
