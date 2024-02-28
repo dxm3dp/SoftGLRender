@@ -2,11 +2,11 @@
 	"model": {
 		"Brickwall": {
 			"path": "Brickwall/brickwall.obj",
-			"default": true
+			"default": false
 		},
 		"AfricanHead": {
 			"path": "AfricanHead/african_head.obj",
-			"default": false
+			"default": true
 		},
 		"Cube": {
 			"path": "Cube/Cube.gltf",

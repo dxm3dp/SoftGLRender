@@ -267,8 +267,7 @@ namespace View {
 		}
 
 		// load default model & skybox
-		// return reloadModel(modelPaths_.begin()->first) && reloadSkybox(skyboxPaths_.begin()->first);
-		auto def = [&json]() -> std::string {
+		auto defaultModel = [&json]() {
 			for (const auto& kv : json["model"].object_items()) {
 				if (kv.second["default"].bool_value()) {
 					return kv.first;
@@ -276,7 +275,7 @@ namespace View {
 			}
 			return json["model"].object_items().begin()->first;
 		};
-		return reloadModel(def()) && reloadSkybox(skyboxPaths_.begin()->first);
+		return reloadModel(defaultModel()) && reloadSkybox(skyboxPaths_.begin()->first);
 	}
 
 	bool ConfigPanel::reloadModel(const std::string& name) {
