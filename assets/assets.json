@@ -1,36 +1,46 @@
 {
 	"model": {
-		"AfricanHead": {
-			"path": "AfricanHead/african_head.obj"
-		},
 		"Brickwall": {
-			"path": "Brickwall/brickwall.obj"
+			"path": "Brickwall/brickwall.obj",
+			"default": true
+		},
+		"AfricanHead": {
+			"path": "AfricanHead/african_head.obj",
+			"default": false
 		},
 		"Cube": {
-			"path": "Cube/Cube.gltf"
+			"path": "Cube/Cube.gltf",
+			"default": false
 		},
 		"DamagedHelmet": {
-			"path": "DamagedHelmet/DamagedHelmet.gltf"
+			"path": "DamagedHelmet/DamagedHelmet.gltf",
+			"default": false
 		},
 		"BoomBox": {
-			"path": "BoomBox/BoomBox.gltf"
+			"path": "BoomBox/BoomBox.gltf",
+			"default": false
 		},
 		"GlassTable": {
-			"path": "GlassTable/scene.gltf"
+			"path": "GlassTable/scene.gltf",
+			"default": false
 		},
 		"Robot": {
-			"path": "Robot/scene.gltf"
+			"path": "Robot/scene.gltf",
+			"default": false
 		}
 	},
 	"skybox": {
 		"Lake": {
-			"path": "Skybox/Lake/"
+			"path": "Skybox/Lake/",
+			"default": true
 		},
 		"Room": {
-			"path": "Skybox/Room.jpeg"
+			"path": "Skybox/Room.jpeg",
+			"default": false
 		},
 		"Hotel": {
-			"path": "Skybox/Hotel.jpg"
+			"path": "Skybox/Hotel.jpg",
+			"default": false
 		}
 	}
 }
