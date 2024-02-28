@@ -6,74 +6,79 @@
 
 #pragma once
 
-#include <unordered_map>
-#include <mutex>
+#include <OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh>
 #include <assimp/scene.h>
+#include <mutex>
+#include <unordered_map>
 
 #include "Base/Buffer.h"
-#include "Model.h"
 #include "Config.h"
 #include "ConfigPanel.h"
+#include "Model.h"
 
 namespace SoftGL {
 namespace View {
 
-class ModelLoader {
- public:
-  explicit ModelLoader(Config &config);
+	typedef OpenMesh::TriMesh_ArrayKernelT<> MyMesh;
 
-  bool loadModel(const std::string &filepath);
-  bool loadSkybox(const std::string &filepath);
+	class ModelLoader {
+	public:
+		explicit ModelLoader(Config& config);
 
-  inline DemoScene &getScene() { return scene_; }
+		bool loadModel(const std::string& filepath);
+		bool loadSkybox(const std::string& filepath);
+		bool loadModelByOpenMesh(const std::string& filepath);
 
-  inline size_t getModelPrimitiveCnt() const {
-    if (scene_.model) {
-      return scene_.model->primitiveCnt;
-    }
-    return 0;
-  }
+		inline DemoScene& getScene() { return scene_; }
 
-  inline void resetAllModelStates() {
-    for (auto &kv : modelCache_) {
-      kv.second->resetStates();
-    }
+		inline size_t getModelPrimitiveCnt() const {
+			if (scene_.model) {
+				return scene_.model->primitiveCnt;
+			}
+			return 0;
+		}
 
-    for (auto &kv : skyboxMaterialCache_) {
-      kv.second->resetStates();
-    }
-  }
+		inline void resetAllModelStates() {
+			for (auto& kv : modelCache_) {
+				kv.second->resetStates();
+			}
 
-  static void loadCubeMesh(ModelVertexes &mesh);
+			for (auto& kv : skyboxMaterialCache_) {
+				kv.second->resetStates();
+			}
+		}
 
- private:
-  void loadWorldAxis();
-  void loadLights();
-  void loadFloor();
+		static void loadCubeMesh(ModelVertexes& mesh);
 
-  bool processNode(const aiNode *ai_node, const aiScene *ai_scene, ModelNode &outNode, glm::mat4 &transform);
-  bool processMesh(const aiMesh *ai_mesh, const aiScene *ai_scene, ModelMesh &outMesh);
-  void processMaterial(const aiMaterial *ai_material, aiTextureType textureType, Material &material);
+	private:
+		void loadWorldAxis();
+		void loadLights();
+		void loadFloor();
 
-  static glm::mat4 convertMatrix(const aiMatrix4x4 &m);
-  static BoundingBox convertBoundingBox(const aiAABB &aabb);
-  static WrapMode convertTexWrapMode(const aiTextureMapMode &mode);
-  static glm::mat4 adjustModelCenter(BoundingBox &bounds);
+		bool processNode(const aiNode* ai_node, const aiScene* ai_scene, ModelNode& outNode, glm::mat4& transform);
+		bool processMesh(const aiMesh* ai_mesh, const aiScene* ai_scene, ModelMesh& outMesh);
+		void processMaterial(const aiMaterial* ai_material, aiTextureType textureType, Material& material);
 
-  void preloadTextureFiles(const aiScene *scene, const std::string &resDir);
-  std::shared_ptr<Buffer<RGBA>> loadTextureFile(const std::string &path);
+		static glm::mat4 convertMatrix(const aiMatrix4x4& m);
+		static BoundingBox convertBoundingBox(const aiAABB& aabb);
+		static WrapMode convertTexWrapMode(const aiTextureMapMode& mode);
+		static glm::mat4 adjustModelCenter(BoundingBox& bounds);
 
- private:
-  Config &config_;
+		void preloadTextureFiles(const aiScene* scene, const std::string& resDir);
+		std::shared_ptr<Buffer<RGBA>> loadTextureFile(const std::string& path);
 
-  DemoScene scene_;
-  std::unordered_map<std::string, std::shared_ptr<Model>> modelCache_;
-  std::unordered_map<std::string, std::shared_ptr<Buffer<RGBA>>> textureDataCache_;
-  std::unordered_map<std::string, std::shared_ptr<SkyboxMaterial>> skyboxMaterialCache_;
+	private:
+		Config& config_;
 
-  std::mutex modelLoadMutex_;
-  std::mutex texCacheMutex_;
-};
+		DemoScene scene_;
+		MyMesh myMesh_;
+		std::unordered_map<std::string, std::shared_ptr<Model>> modelCache_;
+		std::unordered_map<std::string, std::shared_ptr<Buffer<RGBA>>> textureDataCache_;
+		std::unordered_map<std::string, std::shared_ptr<SkyboxMaterial>> skyboxMaterialCache_;
 
-}
-}
+		std::mutex modelLoadMutex_;
+		std::mutex texCacheMutex_;
+	};
+
+} // namespace View
+} // namespace SoftGL

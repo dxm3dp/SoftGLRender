@@ -64,6 +64,10 @@ set(BUILD_TESTING OFF)
 set(USE_CCACHE ON)
 add_subdirectory("${THIRD_PARTY_DIR}/glslang")
 
+# OpenMesh
+set(OpenMesh_DIR "D:\\SetupFiles\\Graphics\\OpenMesh-10.0.0\\build")
+find_package(OpenMesh REQUIRED)
+
 # main src
 file(GLOB SOFTGL_SRC
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Base/*.cpp
@@ -96,6 +100,8 @@ set(LINK_LIBS
         glslang
         glslang-default-resource-limits
         SPIRV
+        OpenMeshCore
+        OpenMeshTools
         )
 
 if (WIN32)
