@@ -68,6 +68,9 @@ add_subdirectory("${THIRD_PARTY_DIR}/glslang")
 set(OpenMesh_DIR "D:\\SetupFiles\\Graphics\\OpenMesh-10.0.0\\build")
 find_package(OpenMesh REQUIRED)
 
+# Eigen
+include_directories("C:/Program Files (x86)/Eigen3/include/eigen3")
+
 # main src
 file(GLOB SOFTGL_SRC
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Base/*.cpp

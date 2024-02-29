@@ -6,20 +6,18 @@
 
 #pragma once
 
-#include <OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh>
 #include <assimp/scene.h>
 #include <mutex>
 #include <unordered_map>
 
 #include "Base/Buffer.h"
+#include "Base/OpenMeshInc.h"
 #include "Config.h"
 #include "ConfigPanel.h"
 #include "Model.h"
 
 namespace SoftGL {
 namespace View {
-
-	typedef OpenMesh::TriMesh_ArrayKernelT<> MyMesh;
 
 	class ModelLoader {
 	public:

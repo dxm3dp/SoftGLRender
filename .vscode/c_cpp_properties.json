@@ -22,7 +22,8 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "D:/MyPrograms/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include",
-                "${workspaceFolder}/src"
+                "${workspaceFolder}/src",
+                "C:/Program Files (x86)/Eigen3/include/eigen3"
             ],
             "defines": [
                 "_DEBUG",
