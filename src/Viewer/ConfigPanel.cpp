@@ -49,11 +49,28 @@ namespace View {
 		             nullptr,
 		             ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize);
 		drawSettings();
+		drawSimplifications();
 		ImGui::SetWindowPos(ImVec2(frameWidth_ - ImGui::GetWindowWidth(), 0));
 		ImGui::End();
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	}
+
+	void ConfigPanel::drawSimplifications() {
+		ImGui::Separator();
+		if (ImGui::CollapsingHeader("Simplifications", ImGuiTreeNodeFlags_DefaultOpen)) {
+			ImGui::InputFloat("simp rate", &config_.simpRate, 0.1f, 0.1f, "%.2f");
+			float w = ImGui::GetContentRegionAvail().x;
+			float p = ImGui::GetStyle().FramePadding.x;
+			if (ImGui::Button("OK", ImVec2((w - p) / 2.f, 0))) {
+				// To do simplification.
+			}
+			ImGui::SameLine(0, p);
+			if (ImGui::Button("Reset", ImVec2((w - p) / 2.f, 0))) {
+				// To do reset.
+			}
+		}
 	}
 
 	void ConfigPanel::drawSettings() {
