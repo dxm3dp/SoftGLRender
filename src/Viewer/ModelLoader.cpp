@@ -224,6 +224,23 @@ namespace View {
 	}
 
 	bool ModelLoader::loadModelByOpenMesh(const std::string& filepath) {
+		std::lock_guard<std::mutex> lk(modelLoadMutex_);
+		if (filepath.empty()) {
+			return false;
+		}
+
+		auto it = modelCache_.find(filepath);
+		if (it != modelCache_.end()) {
+			scene_.model = it->second;
+			return true;
+		}
+
+		modelCache_[filepath] = std::make_shared<Model>();
+		scene_.model = modelCache_[filepath];
+
+		LOGD("load model, path: %s", filepath.c_str());
+
+		// load model
 		myMesh_.request_face_normals();
 		OpenMesh::IO::Options opt;
 		if (!OpenMesh::IO::read_mesh(myMesh_, filepath, opt)) {
@@ -231,8 +248,25 @@ namespace View {
 			return false;
 		}
 		myMesh_.update_face_normals();
+
+		scene_.model->resourcePath = filepath.substr(0, filepath.find_last_of('/'));
+
+		auto currTransform = glm::mat4(1.f);
+		// if (!processNode(scene->mRootNode, scene, scene_.model->rootNode, currTransform)) {
+		// LOGE("ModelLoader::loadModel, process node failed.");
+		// return false;
+		//}
+
 		return true;
 	}
+
+	// void ModelLoader::processNode(MyMesh& myMesh, ModelNode& outNode) {
+	// if (!myMesh) {
+	// return false;
+	//}
+
+	// ModelMesh mesh;
+	//}
 
 	bool ModelLoader::processNode(const aiNode* ai_node,
 	                              const aiScene* ai_scene,
@@ -270,6 +304,41 @@ namespace View {
 			}
 		}
 		return true;
+	}
+
+	void ModelLoader::processMesh(const MyMesh& myMesh, ModelMesh& outMesh) {
+		std::vector<Vertex> vertexes;
+		std::vector<int> indices;
+		// 遍历所有顶点
+		MyMesh::VertexIter v_it, v_end(myMesh.vertices_end());
+		for (v_it = myMesh.vertices_begin(); v_it != v_end; ++v_it) {
+			Vertex vertex{};
+			vertex.a_position.x = myMesh.point(*v_it)[0];
+			vertex.a_position.y = myMesh.point(*v_it)[1];
+			vertex.a_position.z = myMesh.point(*v_it)[2];
+			if (myMesh.has_vertex_texcoords2D()) {
+				vertex.a_texCoord.x = myMesh.texcoord2D(*v_it)[0];
+				vertex.a_texCoord.y = myMesh.texcoord2D(*v_it)[1];
+			}
+			if (myMesh.has_vertex_normals()) {
+				vertex.a_normal.x = myMesh.normal(*v_it)[0];
+				vertex.a_normal.y = myMesh.normal(*v_it)[1];
+				vertex.a_normal.z = myMesh.normal(*v_it)[2];
+			}
+			vertexes.push_back(vertex);
+		}
+		if (!myMesh.is_triangles()) {
+			LOGE("ModelLoader::processMesh, mesh not transformed to triangle mesh.");
+			return false;
+		}
+		MyMesh::FaceIter f_it, f_end(myMesh.faces_end());
+		for (f_it = myMesh.faces_begin(); f_it != f_end; ++f_it) {
+			MyMesh::FaceVertexIter fv_it = myMesh.fv_iter(*f_it);
+			for (; fv_it.is_valid(); ++fv_it) {
+				indices.push_back(fv_it->idx());
+			}
+		}
+		// to do 材质处理
 	}
 
 	bool ModelLoader::processMesh(const aiMesh* ai_mesh, const aiScene* ai_scene, ModelMesh& outMesh) {

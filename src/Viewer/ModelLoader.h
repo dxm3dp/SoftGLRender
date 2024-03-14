@@ -55,6 +55,7 @@ namespace View {
 
 		bool processNode(const aiNode* ai_node, const aiScene* ai_scene, ModelNode& outNode, glm::mat4& transform);
 		bool processMesh(const aiMesh* ai_mesh, const aiScene* ai_scene, ModelMesh& outMesh);
+		void processMesh(const MyMesh& myMesh, ModelMesh& outMesh);
 		void processMaterial(const aiMaterial* ai_material, aiTextureType textureType, Material& material);
 
 		static glm::mat4 convertMatrix(const aiMatrix4x4& m);
