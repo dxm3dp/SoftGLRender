@@ -298,7 +298,7 @@ namespace View {
 		return true;
 	}
 
-	void ModelLoader::processMesh(const MyMesh& myMesh, ModelMesh& outMesh) {
+	bool ModelLoader::processMesh(MyMesh& myMesh, ModelMesh& outMesh) {
 		std::vector<Vertex> vertexes;
 		std::vector<int> indices;
 		// 遍历所有顶点
@@ -330,7 +330,10 @@ namespace View {
 				indices.push_back(fv_it->idx());
 			}
 		}
+
 		// to do 材质处理
+
+		return true;
 	}
 
 	bool ModelLoader::processMesh(const aiMesh* ai_mesh, const aiScene* ai_scene, ModelMesh& outMesh) {
