@@ -76,9 +76,6 @@ namespace View {
 			});
 			configPanel_->setReloadModelFunc([&](const std::string& path) -> bool {
 				waitRenderIdle();
-
-				// add OpenMesh read mesh
-				modelLoader_->loadModelByOpenMesh(path);
 				return modelLoader_->loadModel(path);
 			});
 			configPanel_->setReloadSkyboxFunc([&](const std::string& path) -> bool {

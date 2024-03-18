@@ -260,14 +260,6 @@ namespace View {
 		return true;
 	}
 
-	// void ModelLoader::processNode(MyMesh& myMesh, ModelNode& outNode) {
-	// if (!myMesh) {
-	// return false;
-	//}
-
-	// ModelMesh mesh;
-	//}
-
 	bool ModelLoader::processNode(const aiNode* ai_node,
 	                              const aiScene* ai_scene,
 	                              ModelNode& outNode,
