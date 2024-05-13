@@ -11,7 +11,7 @@
 #include <unordered_map>
 
 #include "Base/Buffer.h"
-#include "Base/OpenMeshInc.h"
+//#include "Base/OpenMeshInc.h"
 #include "Config.h"
 #include "ConfigPanel.h"
 #include "Model.h"
@@ -25,7 +25,7 @@ namespace View {
 
 		bool loadModel(const std::string& filepath);
 		bool loadSkybox(const std::string& filepath);
-		bool loadModelByOpenMesh(const std::string& filepath);
+		//bool loadModelByOpenMesh(const std::string& filepath);
 
 		inline DemoScene& getScene() { return scene_; }
 
@@ -55,7 +55,7 @@ namespace View {
 
 		bool processNode(const aiNode* ai_node, const aiScene* ai_scene, ModelNode& outNode, glm::mat4& transform);
 		bool processMesh(const aiMesh* ai_mesh, const aiScene* ai_scene, ModelMesh& outMesh);
-		bool processMesh(MyMesh& myMesh, ModelMesh& outMesh);
+		//bool processMesh(MyMesh& myMesh, ModelMesh& outMesh);
 		void processMaterial(const aiMaterial* ai_material, aiTextureType textureType, Material& material);
 
 		static glm::mat4 convertMatrix(const aiMatrix4x4& m);
@@ -70,7 +70,7 @@ namespace View {
 		Config& config_;
 
 		DemoScene scene_;
-		MyMesh myMesh_;
+		//MyMesh myMesh_;
 		std::unordered_map<std::string, std::shared_ptr<Model>> modelCache_;
 		std::unordered_map<std::string, std::shared_ptr<Buffer<RGBA>>> textureDataCache_;
 		std::unordered_map<std::string, std::shared_ptr<SkyboxMaterial>> skyboxMaterialCache_;

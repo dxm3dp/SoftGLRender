@@ -1,3 +1,4 @@
+/*
 #include "QuadricErrorMetric.h"
 #include <queue>
 
@@ -144,3 +145,4 @@ void simplification(MyMesh& mesh, float simpRatio) {
 	mesh.garbage_collection();
 }
 } // namespace SoftGL
+*/

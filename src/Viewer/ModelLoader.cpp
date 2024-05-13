@@ -6,9 +6,9 @@
 
 #include "ModelLoader.h"
 
-#define OM_STATIC_BUILD
+//#define OM_STATIC_BUILD
 
-#include <OpenMesh/Core/IO/MeshIO.hh>
+//#include <OpenMesh/Core/IO/MeshIO.hh>
 #include <assimp/GltfMaterial.h>
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
@@ -223,6 +223,7 @@ namespace View {
 		return true;
 	}
 
+	/*
 	bool ModelLoader::loadModelByOpenMesh(const std::string& filepath) {
 		std::lock_guard<std::mutex> lk(modelLoadMutex_);
 		if (filepath.empty()) {
@@ -259,6 +260,7 @@ namespace View {
 
 		return true;
 	}
+	*/
 
 	bool ModelLoader::processNode(const aiNode* ai_node,
 	                              const aiScene* ai_scene,
@@ -298,6 +300,7 @@ namespace View {
 		return true;
 	}
 
+	/*
 	bool ModelLoader::processMesh(MyMesh& myMesh, ModelMesh& outMesh) {
 		std::vector<Vertex> vertexes;
 		std::vector<int> indices;
@@ -335,6 +338,7 @@ namespace View {
 
 		return true;
 	}
+	*/
 
 	bool ModelLoader::processMesh(const aiMesh* ai_mesh, const aiScene* ai_scene, ModelMesh& outMesh) {
 		std::vector<Vertex> vertexes;

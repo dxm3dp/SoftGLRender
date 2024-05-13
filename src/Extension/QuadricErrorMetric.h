@@ -1,6 +1,7 @@
 #ifndef _QUADRIC_ERROR_METRIC_H_
 #define _QUADRIC_ERROR_METRIC_H_
 
+/*
 #include "Base/EigenInc.h"
 #include "Base/OpenMeshInc.h"
 
@@ -24,5 +25,6 @@ struct edge_collapse_structure {
 
 void simplification(MyMesh& mesh, float simpRatio);
 } // namespace SoftGL
+*/
 
 #endif // _QUADRIC_ERROR_METRIC_H_

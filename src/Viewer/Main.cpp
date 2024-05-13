@@ -12,7 +12,7 @@
 #include <GLFW/glfw3.h>
 
 #include "Base/Logger.h"
-#include "Extension/QuadricErrorMetric.h"
+//#include "Extension/QuadricErrorMetric.h"
 #include "Render/OpenGL/GLSLUtils.h"
 #include "Viewer/ViewerManager.h"
 
